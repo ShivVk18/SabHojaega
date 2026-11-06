@@ -102,6 +102,7 @@ export class FastAPIAdapter extends BaseFrameworkAdapter {
   async create(context: CreateContext): Promise<CreateResult> {
     const generatedPath = await generateProject({
       framework: this.id,
+      language: this.language,
       projectName: context.projectName,
       outputDirectory: context.projectDir,
       templatesDirectory: context.templatesDir
