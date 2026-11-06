@@ -20,7 +20,7 @@ describe("Project Generator", () => {
     }
   });
 
-  it("generates a FastAPI project successfully from templates", async () => {
+  it("generates a FastAPI project successfully using TemplateEngine", async () => {
     const targetDir = path.join(tmpDir, "test-api");
 
     const resultPath = await generateProject({
@@ -32,7 +32,7 @@ describe("Project Generator", () => {
 
     expect(resultPath).toBe(targetDir);
 
-    // Verify file existence
+    // Verify file existence in base
     const files = await fs.readdir(targetDir);
     expect(files).toContain("main.py");
     expect(files).toContain("requirements.txt");
@@ -41,7 +41,7 @@ describe("Project Generator", () => {
 
     // Verify Handlebars substitution
     const mainPy = await fs.readFile(path.join(targetDir, "main.py"), "utf-8");
-    expect(mainPy).toContain("title=\"test-api\"");
+    expect(mainPy).toContain('title="test-api"');
     expect(mainPy).toContain("Welcome to test-api!");
 
     const readme = await fs.readFile(path.join(targetDir, "README.md"), "utf-8");
