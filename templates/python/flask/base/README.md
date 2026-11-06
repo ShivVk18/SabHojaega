@@ -23,3 +23,4 @@ flask run --port 5000
 ## Endpoints
 - `GET /`: Welcome message
 - `GET /health`: Health check status (`{"status":"healthy"}`)
+

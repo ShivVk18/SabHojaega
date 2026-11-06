@@ -9,3 +9,4 @@ def health_view(request):
     return JsonResponse({
         "status": "healthy"
     })
+

@@ -16,3 +16,4 @@
   "requiredFiles": ["package.json", "tsconfig.json", "src/index.ts", ".gitignore", "README.md"],
   "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
 }
+

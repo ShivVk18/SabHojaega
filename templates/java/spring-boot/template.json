@@ -22,3 +22,4 @@
   ],
   "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
 }
+

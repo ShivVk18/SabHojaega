@@ -16,3 +16,4 @@
   "requiredFiles": ["requirements.txt", "manage.py", "server/settings.py", "server/urls.py", ".gitignore", "README.md"],
   "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
 }
+

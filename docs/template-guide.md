@@ -125,3 +125,4 @@ To add a new framework (e.g., Rust Axum or PHP Laravel) **without modifying any 
    - `README.md`
 
 4. Run `npm test` — the automated test suite will automatically discover and validate the template!
+

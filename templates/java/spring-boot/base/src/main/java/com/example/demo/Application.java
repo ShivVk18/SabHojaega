@@ -26,3 +26,4 @@ public class Application {
         return Collections.singletonMap("status", "healthy");
     }
 }
+

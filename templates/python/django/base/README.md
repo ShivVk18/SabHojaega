@@ -20,3 +20,4 @@ python manage.py runserver
 ## Endpoints
 - `GET /`: Welcome message
 - `GET /health`: Health check status (`{"status":"healthy"}`)
+

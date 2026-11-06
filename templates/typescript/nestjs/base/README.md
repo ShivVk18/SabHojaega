@@ -26,3 +26,4 @@ npm run start:prod
 ## Endpoints
 - `GET /`: Welcome message
 - `GET /health`: Health check status (`{"status":"healthy"}`)
+

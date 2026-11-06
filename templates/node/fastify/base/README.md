@@ -25,3 +25,4 @@ npm start
 ## Endpoints
 - `GET /`: Welcome message
 - `GET /health`: Health check status (`{"status":"healthy"}`)
+

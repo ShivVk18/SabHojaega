@@ -16,3 +16,4 @@
   "requiredFiles": ["package.json", "src/index.js", ".gitignore", "README.md"],
   "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
 }
+

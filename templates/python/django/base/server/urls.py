@@ -5,3 +5,4 @@ urlpatterns = [
     path('', home_view, name='home'),
     path('health', health_view, name='health'),
 ]
+
