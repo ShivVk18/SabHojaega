@@ -1,21 +1,22 @@
-
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 import Handlebars from "handlebars";
-import { getFramework } from "../registry/frameworks.js";
+import { ALL_FRAMEWORK_METAS } from "../registry/meta.js";
 
-interface GenerateOptions {
+export interface GenerateOptions {
   framework: string;
   projectName: string;
   outputDirectory: string;
   templatesDirectory: string;
+  variables?: Record<string, unknown> | undefined;
 }
 
 async function renderDirectory(
   source: string,
   destination: string,
-  variables: Record<string, string>
-) {
+  variables: Record<string, unknown>,
+  createdFiles: string[] = []
+): Promise<string[]> {
   await fs.mkdir(destination, { recursive: true });
 
   const entries = await fs.readdir(source, {
@@ -29,7 +30,8 @@ async function renderDirectory(
       await renderDirectory(
         sourcePath,
         path.join(destination, entry.name),
-        variables
+        variables,
+        createdFiles
       );
       continue;
     }
@@ -55,15 +57,18 @@ async function renderDirectory(
       : content;
 
     await fs.writeFile(destinationPath, output);
+    createdFiles.push(destinationPath);
   }
+
+  return createdFiles;
 }
 
 export async function generateProject(
   options: GenerateOptions
-) {
-  const framework = getFramework(options.framework);
+): Promise<string> {
+  const meta = ALL_FRAMEWORK_METAS.find((m) => m.id === options.framework);
 
-  if (!framework) {
+  if (!meta) {
     throw new Error(
       `Framework "${options.framework}" is not supported.`
     );
@@ -71,7 +76,7 @@ export async function generateProject(
 
   const templatePath = path.join(
     options.templatesDirectory,
-    framework.templatePath
+    meta.templatePath
   );
 
   try {
@@ -105,10 +110,15 @@ export async function generateProject(
     // Directory does not exist yet.
   }
 
+  const templateVars = {
+    projectName: options.projectName,
+    ...options.variables
+  };
+
   await renderDirectory(
     templatePath,
     outputPath,
-    { projectName: options.projectName }
+    templateVars
   );
 
   return outputPath;
