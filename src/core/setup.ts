@@ -1,46 +1,27 @@
-
-import { spawn } from "node:child_process";
+import { spawn, type ChildProcess } from "node:child_process";
 import path from "node:path";
 import fs from "node:fs/promises";
+import { resolvePythonRuntime } from "./runtime.js";
+import { safeSpawn, runCommand } from "../utils/process.js";
 
-function runCommand(
-  command: string,
-  args: string[],
-  cwd: string
-): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      cwd,
-      stdio: "inherit",
-      shell: false
-    });
-
-    child.on("error", reject);
-
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(
-          new Error(`${command} exited with code ${code}`)
-        );
-      }
-    });
-  });
+export interface SetupOptions {
+  startServer?: boolean;
 }
 
-export async function setupFastAPI(projectPath: string) {
+export async function setupFastAPI(
+  projectPath: string,
+  options: SetupOptions = {}
+): Promise<ChildProcess | undefined> {
   const isWindows = process.platform === "win32";
-
-  const python = isWindows ? "py" : "python3";
+  const pythonInfo = await resolvePythonRuntime();
+  const python = pythonInfo ? pythonInfo.executable : (isWindows ? "py" : "python3");
 
   const venvArgs = isWindows
     ? ["-3", "-m", "venv", ".venv"]
     : ["-m", "venv", ".venv"];
 
   console.log("\nCreating virtual environment...");
-
-  await runCommand(python, venvArgs, projectPath);
+  await runCommand(python, venvArgs, { cwd: projectPath });
 
   const venvPython = isWindows
     ? path.join(projectPath, ".venv", "Scripts", "python.exe")
@@ -49,36 +30,39 @@ export async function setupFastAPI(projectPath: string) {
   await fs.access(venvPython);
 
   console.log("\nInstalling dependencies...");
-
   await runCommand(
     venvPython,
     ["-m", "pip", "install", "-r", "requirements.txt"],
-    projectPath
+    { cwd: projectPath }
   );
 
-  console.log("\nStarting FastAPI server...\n");
+  if (options.startServer) {
+    console.log("\nStarting FastAPI server...\n");
 
-  const child = spawn(
-    venvPython,
-    [
-      "-m",
-      "uvicorn",
-      "main:app",
-      "--reload",
-      "--host",
-      "127.0.0.1",
-      "--port",
-      "8000"
-    ],
-    {
-      cwd: projectPath,
-      stdio: "inherit"
-    }
-  );
+    const child = safeSpawn(
+      venvPython,
+      [
+        "-m",
+        "uvicorn",
+        "main:app",
+        "--reload",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000"
+      ],
+      {
+        cwd: projectPath,
+        stdio: "inherit"
+      }
+    );
 
-  child.on("error", (error) => {
-    console.error("Failed to start Uvicorn:", error);
-  });
+    child.on("error", (error) => {
+      console.error("Failed to start Uvicorn:", error);
+    });
 
-  return child;
+    return child;
+  }
+
+  return undefined;
 }

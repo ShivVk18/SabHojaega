@@ -1,11 +1,10 @@
-
 import { Command } from "commander";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import chalk from "chalk";
 
 import { listFrameworks } from "./cli/commands/list.js";
-import { createProject } from "./cli/commands/create.js";
+import { createProject, type CreateCommandOptions } from "./cli/commands/create.js";
 import { startProject } from "./cli/commands/start.js";
 import { getProjectConfig } from "./prompts/project-prompts.js";
 
@@ -23,21 +22,25 @@ const program = new Command();
 
 program
   .name("sabhojaega")
-  .description("Your boilerplate. Your stack. One command.")
+  .description("Multi-language backend project generator and development server launcher")
   .version("0.1.0");
 
 // CREATE COMMAND
 program
   .command("create")
-  .description("Create a new project")
-  .argument("[framework]", "Framework to use")
+  .description("Create a new backend project")
+  .argument("[framework]", "Framework to use (e.g. fastapi, express, gin)")
   .argument("[project-name]", "Name of your project")
+  .option("-l, --language <language>", "Language (nodejs, typescript, python, java, go)")
+  .option("-f, --framework <framework>", "Framework to use")
+  .option("-n, --name <name>", "Project name")
   .option("-o, --output <directory>", "Output directory")
-  .action(async (framework, projectName, options) => {
+  .option("--skip-install", "Skip automatic dependency installation")
+  .action(async (frameworkArg, projectNameArg, options: CreateCommandOptions) => {
     await createProject(
       templatesDirectory,
-      framework,
-      projectName,
+      frameworkArg,
+      projectNameArg,
       options
     );
   });
@@ -45,7 +48,7 @@ program
 // LIST COMMAND
 program
   .command("list")
-  .description("List all available frameworks")
+  .description("List all supported languages and frameworks")
   .action(() => {
     listFrameworks();
   });
@@ -53,16 +56,17 @@ program
 // START COMMAND
 program
   .command("start")
-  .description("Start the current development project")
-  .option("-p, --port <port>", "Server port", "8000")
-  .option("--host <host>", "Server host", "127.0.0.1")
-  .option("--framework <framework>", "Manually specify framework")
-  .option("--app <module:app>", "Specify ASGI application entry point")
+  .description("Start the development server for the current project")
+  .option("-p, --port <port>", "Server port")
+  .option("--host <host>", "Server host (default: 127.0.0.1)")
+  .option("-l, --language <language>", "Manually specify project language")
+  .option("-f, --framework <framework>", "Manually specify framework")
+  .option("--app <entryPoint>", "Specify application entry point (e.g. main:app)")
   .action(async (options) => {
     await startProject(options);
   });
 
-// INTERACTIVE MODE
+// INTERACTIVE BANNER MODE
 async function interactiveMode() {
   console.log(chalk.bold.cyan(`
   ███████╗ █████╗ ██████╗ ██╗  ██╗ ██████╗
@@ -74,15 +78,24 @@ async function interactiveMode() {
   `));
 
   console.log(
-    chalk.gray("Your boilerplate. Your stack. One command.\n")
+    chalk.gray("Multi-language backend project generator & runner\n")
   );
 
   const answers = await getProjectConfig();
 
+  if (!answers.confirmed) {
+    console.log(chalk.yellow("\nProject creation cancelled."));
+    return;
+  }
+
   await createProject(
     templatesDirectory,
     answers.framework,
-    answers.projectName
+    answers.projectName,
+    {
+      language: answers.language,
+      output: answers.projectDirectory
+    }
   );
 }
 

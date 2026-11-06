@@ -1,0 +1,19 @@
+{
+  "id": "gin",
+  "name": "Go Gin",
+  "language": "go",
+  "framework": "gin",
+  "version": "1.0.0",
+  "description": "High-performance HTTP web framework written in Go",
+  "requiredRuntime": "go",
+  "minRuntimeVersion": "1.20",
+  "defaultPort": 8080,
+  "entryPoint": "main.go",
+  "installCommand": ["go", "mod", "tidy"],
+  "devCommand": ["go", "run", "main.go"],
+  "buildCommand": ["go", "build", "-o", "server", "main.go"],
+  "healthEndpoint": "/health",
+  "requiredFiles": ["go.mod", "main.go", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}
+

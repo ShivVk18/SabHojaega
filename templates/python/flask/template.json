@@ -1,0 +1,19 @@
+{
+  "id": "flask",
+  "name": "Flask",
+  "language": "python",
+  "framework": "flask",
+  "version": "1.0.0",
+  "description": "A lightweight WSGI web application framework in Python",
+  "requiredRuntime": "python",
+  "minRuntimeVersion": "3.10",
+  "defaultPort": 5000,
+  "entryPoint": "app.py",
+  "installCommand": ["pip", "install", "-r", "requirements.txt"],
+  "devCommand": ["flask", "run", "--port", "5000"],
+  "buildCommand": null,
+  "healthEndpoint": "/health",
+  "requiredFiles": ["requirements.txt", "app.py", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}
+

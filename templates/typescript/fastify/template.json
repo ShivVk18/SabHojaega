@@ -1,0 +1,19 @@
+{
+  "id": "fastify",
+  "name": "TypeScript Fastify",
+  "language": "typescript",
+  "framework": "fastify",
+  "version": "1.0.0",
+  "description": "Fastify web framework configured with TypeScript and tsx",
+  "requiredRuntime": "node",
+  "minRuntimeVersion": "18.0.0",
+  "defaultPort": 3000,
+  "entryPoint": "src/index.ts",
+  "installCommand": ["npm", "install"],
+  "devCommand": ["npm", "run", "dev"],
+  "buildCommand": ["npm", "run", "build"],
+  "healthEndpoint": "/health",
+  "requiredFiles": ["package.json", "tsconfig.json", "src/index.ts", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}
+

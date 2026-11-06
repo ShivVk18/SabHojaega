@@ -1,3 +1,4 @@
+import { defaultRegistry } from "./framework-registry.js";
 
 export interface Framework {
   id: string;
@@ -7,18 +8,22 @@ export interface Framework {
   templatePath: string;
 }
 
-export const frameworks: Framework[] = [
-  {
-    id: "fastapi",
-    name: "Python FastAPI",
-    language: "python",
-    category: "backend",
-    templatePath: "python/fastapi"
-  }
-];
+export const frameworks: Framework[] = defaultRegistry.getAllMetadata().map((m) => ({
+  id: m.id,
+  name: m.name,
+  language: m.language,
+  category: m.category,
+  templatePath: m.templatePath
+}));
 
-export function getFramework(id: string) {
-  return frameworks.find(
-    (framework) => framework.id === id
-  );
+export function getFramework(id: string): Framework | undefined {
+  const meta = defaultRegistry.getMeta(id);
+  if (!meta) return undefined;
+  return {
+    id: meta.id,
+    name: meta.name,
+    language: meta.language,
+    category: meta.category,
+    templatePath: meta.templatePath
+  };
 }
