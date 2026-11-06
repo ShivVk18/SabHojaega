@@ -1,0 +1,24 @@
+{
+  "id": "spring-boot",
+  "name": "Spring Boot",
+  "language": "java",
+  "framework": "spring-boot",
+  "version": "1.0.0",
+  "description": "Stand-alone, production-grade Spring based Application",
+  "requiredRuntime": "java",
+  "minRuntimeVersion": "17",
+  "defaultPort": 8080,
+  "entryPoint": "src/main/java/com/example/demo/Application.java",
+  "installCommand": ["mvn", "dependency:resolve"],
+  "devCommand": ["mvn", "spring-boot:run"],
+  "buildCommand": ["mvn", "clean", "package"],
+  "healthEndpoint": "/health",
+  "requiredFiles": [
+    "pom.xml",
+    "src/main/java/com/example/demo/Application.java",
+    "src/main/resources/application.properties",
+    ".gitignore",
+    "README.md"
+  ],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}

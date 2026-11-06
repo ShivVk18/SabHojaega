@@ -1,0 +1,18 @@
+{
+  "id": "fastify",
+  "name": "Node.js Fastify",
+  "language": "nodejs",
+  "framework": "fastify",
+  "version": "1.0.0",
+  "description": "Extremely fast and low overhead web framework for Node.js",
+  "requiredRuntime": "node",
+  "minRuntimeVersion": "18.0.0",
+  "defaultPort": 3000,
+  "entryPoint": "src/index.js",
+  "installCommand": ["npm", "install"],
+  "devCommand": ["npm", "run", "dev"],
+  "buildCommand": null,
+  "healthEndpoint": "/health",
+  "requiredFiles": ["package.json", "src/index.js", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}

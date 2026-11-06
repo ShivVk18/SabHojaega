@@ -1,0 +1,18 @@
+{
+  "id": "fiber",
+  "name": "Go Fiber",
+  "language": "go",
+  "framework": "fiber",
+  "version": "1.0.0",
+  "description": "Express inspired web framework written in Go built on Fasthttp",
+  "requiredRuntime": "go",
+  "minRuntimeVersion": "1.20",
+  "defaultPort": 3000,
+  "entryPoint": "main.go",
+  "installCommand": ["go", "mod", "tidy"],
+  "devCommand": ["go", "run", "main.go"],
+  "buildCommand": ["go", "build", "-o", "server", "main.go"],
+  "healthEndpoint": "/health",
+  "requiredFiles": ["go.mod", "main.go", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}

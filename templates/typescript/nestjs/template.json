@@ -1,0 +1,28 @@
+{
+  "id": "nestjs",
+  "name": "NestJS",
+  "language": "typescript",
+  "framework": "nestjs",
+  "version": "1.0.0",
+  "description": "Progressive TypeScript framework for building scalable server-side apps",
+  "requiredRuntime": "node",
+  "minRuntimeVersion": "18.0.0",
+  "defaultPort": 3000,
+  "entryPoint": "src/main.ts",
+  "installCommand": ["npm", "install"],
+  "devCommand": ["npm", "run", "start:dev"],
+  "buildCommand": ["npm", "run", "build"],
+  "healthEndpoint": "/health",
+  "requiredFiles": [
+    "package.json",
+    "nest-cli.json",
+    "tsconfig.json",
+    "src/main.ts",
+    "src/app.module.ts",
+    "src/app.controller.ts",
+    "src/app.service.ts",
+    ".gitignore",
+    "README.md"
+  ],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}

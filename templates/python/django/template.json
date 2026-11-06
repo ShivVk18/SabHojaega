@@ -1,0 +1,18 @@
+{
+  "id": "django",
+  "name": "Django",
+  "language": "python",
+  "framework": "django",
+  "version": "1.0.0",
+  "description": "The web framework for perfectionists with deadlines",
+  "requiredRuntime": "python",
+  "minRuntimeVersion": "3.10",
+  "defaultPort": 8000,
+  "entryPoint": "manage.py",
+  "installCommand": ["pip", "install", "-r", "requirements.txt"],
+  "devCommand": ["python", "manage.py", "runserver"],
+  "buildCommand": null,
+  "healthEndpoint": "/health",
+  "requiredFiles": ["requirements.txt", "manage.py", "server/settings.py", "server/urls.py", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}

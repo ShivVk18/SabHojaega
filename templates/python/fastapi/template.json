@@ -1,0 +1,18 @@
+{
+  "id": "fastapi",
+  "name": "Python FastAPI",
+  "language": "python",
+  "framework": "fastapi",
+  "version": "1.0.0",
+  "description": "Modern, fast high-performance Python web framework based on standard type hints",
+  "requiredRuntime": "python",
+  "minRuntimeVersion": "3.10",
+  "defaultPort": 8000,
+  "entryPoint": "main:app",
+  "installCommand": ["pip", "install", "-r", "requirements.txt"],
+  "devCommand": ["uvicorn", "main:app", "--reload"],
+  "buildCommand": null,
+  "healthEndpoint": "/health",
+  "requiredFiles": ["requirements.txt", "main.py", ".gitignore", "README.md"],
+  "supportedVariables": ["projectName", "projectSlug", "framework", "language", "port"]
+}
